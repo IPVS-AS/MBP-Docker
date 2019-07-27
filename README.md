@@ -1,2 +1,2 @@
 # MBP-Docker
-Docker container for the Multi-purpose Binding and Provisioning Platform
+Docker container definition for the Multi-purpose Binding and Provisioning Platform
