@@ -23,6 +23,8 @@ This is a list of third-party components that are installed within this containe
 * [InfluxDB](https://portal.influxdata.com/downloads/)
 * [Tomcat 8](https://tomcat.apache.org/download-80.cgi)
 
+Remark: Sets `-Djava.security.egd=file:/dev/./urandom` for faster startup. However, this makes the usage of this container a bit less secure.
+
 ### Ports
 This is a list of network ports exposed by this container.
 

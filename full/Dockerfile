@@ -75,8 +75,9 @@ RUN wget http://archive.apache.org/dist/tomcat/tomcat-8/v${TOMCAT_VERSION}/bin/a
 ADD ./server.xml /opt/tomcat/conf/
 ADD ./tomcat-users.xml /opt/tomcat/conf/
 ADD ./manager.xml /opt/tomcat/conf/Catalina/localhost/manager.xml
-ADD ./tomcat_security_fix.sh /tmp/tomcat_security_fix.sh
-RUN /tmp/tomcat_security_fix.sh
+RUN export CATALINA_OPTS="$CATALINA_OPTS -Djava.security.egd=file:/dev/./urandom"
+# ADD ./tomcat_security_fix.sh /tmp/tomcat_security_fix.sh
+# RUN /tmp/tomcat_security_fix.sh
 
 # Build MBP *.war file
 WORKDIR ${MBP_HOME}
