@@ -3,7 +3,7 @@ This repository specifies a Docker container for the [Multi-purpose Binding and 
 
 Once an image of this container is executed, the MBP application will be accessible at *port 80*.
 
-**Caution**: Although this container already includes and runs a MQTT broker, it may not be accessible from other nodes and devices if the docker container is not made publicy available within the shared network. By default, docker containers are only available for the host the corresponding docker instance is running on. Therefore, the MBP will not be able to receive and process sensor values. In this case, you will need to run a separate MQTT broker outside of this container and provide its IP address to the MBP application. This may be done at the frontend during runtime by opening the *Settings* page from the menu bar on the left-hand side and selecting the option *Use remote broker*.
+**Remark:** Although this container already includes and runs a MQTT broker, it may not be accessible from other nodes and devices if the docker container is not made publicy available within the shared network. By default, docker containers are only available for the host on which the corresponding docker instance is running on. Therefore, the MBP will not be able to receive and process sensor values. In this case, you will need to run a separate MQTT broker outside of this container and provide its IP address to the MBP application. This may be done at the frontend during runtime by opening the *Settings* page from the menu bar on the left-hand side and selecting the option *Use remote broker*.
 
 ## Properties
 Please find below lists of possibly relevant properties of this container.
