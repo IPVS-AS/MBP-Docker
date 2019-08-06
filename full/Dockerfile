@@ -70,7 +70,7 @@ RUN apt-get -qy install mongodb-server
 RUN wget https://dl.influxdata.com/influxdb/releases/influxdb_${INFLUXDB_VERSION}_amd64.deb
 RUN dpkg -i influxdb_${INFLUXDB_VERSION}_amd64.deb
 
-# Install Tomcat 8, execute security fix file and start
+# Install Tomcat 8, execute security fix and start
 RUN wget http://archive.apache.org/dist/tomcat/tomcat-8/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz -O /tmp/catalina.tar.gz && tar xzf /tmp/catalina.tar.gz -C /opt && ln -s /opt/apache-tomcat-${TOMCAT_VERSION} /opt/tomcat && rm /tmp/catalina.tar.gz
 ADD ./server.xml /opt/tomcat/conf/
 ADD ./tomcat-users.xml /opt/tomcat/conf/
