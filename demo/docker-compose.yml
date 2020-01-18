@@ -1,0 +1,31 @@
+version: '3'
+services:
+    mbp:
+        build:
+            context: ../full/
+            args:
+                branch: percom_artifact
+        restart: always
+        ports:
+            - "80:80"
+            - "1883:1883"
+            - "2221:22"
+        networks:
+          demo_network:
+            ipv4_address: 10.0.0.4        
+    demo_device:
+        build:
+            context: ../demo_device/
+        restart: always
+        ports:
+            - "2222:22"
+        networks:
+          demo_network:
+            ipv4_address: 10.0.0.5
+          
+networks:
+  demo_network:
+    driver: bridge
+    ipam:
+     config:
+        - subnet: 10.0.0.0/24
