@@ -10,11 +10,15 @@ LABEL org.label-schema.name="Multi-purpose Binding and Provisioning Platform"
 LABEL org.label-schema.description="A Multi-purpose Binding and Provisioning Platform (MBP) for Internet of Things devices"
 LABEL org.label-schema.vcs-url="https://github.com/IPVS-AS/MBP-Docker"
 
+# Input arguments
+ARG branch=master
+
 # Environment variables
 ENV TOMCAT_VERSION 8.5.43
 ENV INFLUXDB_VERSION 1.7.7
 ENV MBP_HOME /opt/mbp
-ENV MBP_BRANCH master
+ENV MBP_BRANCH ${branch}
+ENV MBP_REPOSITORY https://github.com/IPVS-AS/MBP
 
 
 # ************* Preparations *************
@@ -44,8 +48,7 @@ RUN mkdir ${MBP_HOME}
 WORKDIR ${MBP_HOME}
 
 # Clone repository
-RUN git clone -b ${MBP_BRANCH} https://github.com/IPVS-AS/MBP .
-
+RUN git clone -b ${MBP_BRANCH} ${MBP_REPOSITORY} .
 
 # *********** MBP installation ***********
 # ****************************************
@@ -92,7 +95,7 @@ RUN mv target/MBP-0.1.war /opt/tomcat/webapps/ROOT.war
 # *****************************************
 
 # Expose ports for web, MQTT, application, InfluxDB and Tomcat
-EXPOSE 80 1883
+EXPOSE 22 80 1883
 
 ADD ./entrypoint.sh /tmp/entrypoint.sh
 ENTRYPOINT /tmp/entrypoint.sh
