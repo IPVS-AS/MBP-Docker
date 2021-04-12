@@ -22,12 +22,13 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selectio
 # Update software repository
 RUN apt-get update
 
-# Install required packages (apt-utils, curl, gnupg2, wget)
+# Install required packages (apt-utils, curl, gnupg2, wget, sudo)
 RUN apt-get install -qy dialog apt-utils
 RUN apt-get install -qy --no-install-recommends apt-utils
 RUN apt-get install -qy curl
 RUN apt-get install -qy gnupg2
 RUN apt-get install -qy wget
+RUN apt-get install -qy sudo
 
 # Install and enable SSH
 RUN apt-get install netcat -qy
