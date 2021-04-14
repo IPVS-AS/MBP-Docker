@@ -7,6 +7,7 @@ services:
                 branch: externalize_config
         container_name: mbp
         ports:
+            - 22
             - 80:8080
         hostname: mbp
         links:
@@ -20,6 +21,8 @@ services:
         ports:
             - 27017
         hostname: mongodb
+        volumes:
+            - /data/db
    
     mosquitto:
         image: eclipse-mosquitto:1.6.14
