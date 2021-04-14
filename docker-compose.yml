@@ -1,0 +1,30 @@
+version: "3"
+services:
+    mbp:
+        build:
+            context: ./mbp_container/
+            args:
+                branch: externalize_config
+        container_name: mbp
+        ports:
+            - 80:8080
+        hostname: mbp
+        links:
+            - mongodb:mongodb
+            - mosquitto:mosquitto
+            
+    mongodb:
+        image: mongo:latest
+        container_name: mongodb
+        restart: always
+        ports:
+            - 27017
+        hostname: mongodb
+   
+    mosquitto:
+        image: eclipse-mosquitto:latest
+        container_name: mosquitto
+        restart: always
+        ports:
+            - 1883
+        hostname: mosquitto
