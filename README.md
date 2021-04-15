@@ -1,65 +1,18 @@
 # MBP-Docker
-This repository specifies a Dockerfile for building a Docker image for the [Multi-purpose Binding and Provisioning Platform (MBP)](https://github.com/IPVS-AS/MBP). It consists out of the MBP application and its dependencies, including Tomcat 8, MongoDB, InfluxDB and Mosquitto as MQTT broker.
+This repository specifies a docker-compose configuration which allows to operate an instance of the [Multi-purpose Binding and Provisioning Platform (MBP)](https://github.com/IPVS-AS/MBP). It consists out of multiple containers: One for the deployed MBP application itself, one for the requred MongoDB and one for a MQTT broker.
 
-Once the image is executed within a container, the MBP application will be accessible at *port 80*.
-
-**Remark:** Although this image already includes a MQTT broker, it may only be accessible from the host on which the container is running and not from other devices in the same network. By default, ports of docker containers are only available for the host on which the corresponding docker instance is running on. Thus, the MBP will not be able to receive and process sensor values from other devices. In this case, you will need to run a separate MQTT broker outside of this container and provide its IP address to the MBP application. This may be done at the frontend during runtime by opening the *Settings* page from the menu bar on the left-hand side and selecting the option *Use remote broker*. As an alternative, a proxy may be configured on the host that forwards the container ports and makes them publicly available.
-
-## Properties
-Please find below some lists of properties of the docker image.
-
-### Base image
-Ubuntu 19.04 is used as base image.
-
-### Installed components
-This is a list of third-party components that are installed within this container.
-
-* Basic packages: apt-utils, curl, gnupg2, wget
-* Git
-* OpenJDK 8
-* Maven
-* [Mosquitto MQTT Broker](https://mosquitto.org/download/)
-* [MongoDB Server](https://www.mongodb.com/download-center?jmp=nav#community)
-* [InfluxDB](https://portal.influxdata.com/downloads/)
-* [Tomcat 8](https://tomcat.apache.org/download-80.cgi)
-
-Remark: Sets `-Djava.security.egd=file:/dev/./urandom` for faster startup. However, this makes the usage of this container a bit less secure.
-
-### Ports
-This is a list of network ports exposed by this container.
-
-* Port 22: May be used for SSH
-* Port 80: The frontend of the MBP application will be available on this port
-* Port 1883: Used for MQTT communication
-
-### Arguments
-This is a list of arguments that may be passed within the build step of the image.
-
-* `branch` Branch of the MBP GitHub repository that is supposed to be used as source for the MBP
-
-### Environment Variables
-This is a list of environment variables that are available within the container.
-
-* `TOMCAT_VERSION`: Version number of Tomcat 8 to use
-* `INFLUXDB_VERSION`: Version number of InfluxDB to use
-* `MBP_HOME`: Path to the directory into which the MBP application is supposed to be installed
-* `JAVA_HOME`: Java Home directory
-
-
-## Volumes
-No volumes are exposed at the moment.
+**Remark:** Although this setup already includes a MQTT broker, it may only be accessible from the host on which the container is running and not from other devices in the same network. By default, ports of docker containers are only available for the host on which the corresponding docker instance is running on. Thus, the MBP will not be able to receive and process sensor values from other devices. In this case, you will need to run a separate MQTT broker outside of this container and provide its IP address to the MBP application. This may be done at the frontend during runtime by opening the *Settings* page from the menu bar on the left-hand side and selecting the option *Use remote broker*. As an alternative, a proxy may be configured on the host that forwards the container ports and makes them publicly available.
 
 ## Usage
-This section describes how to build an image from this repository and run it in docker as a container.
+This section describes how to run an instance of the MBP using docker-compose.
 
 ### Build image
 1. Clone this repository on your local machine
-2. Switch into the root folder of this repository
-3. Execute `docker build -t mbp --build-arg branch=master full/` to build an image with name `mbp` by using the master branch of the MBP repository as source for the application. You may omit the branch parameter or replace it with the name of a different branch.
-4. Execute `docker run -it --name mbp -p 80:80 -p 1883:1883 mbp:latest` to create a container from the previously created image. By default, this maps port 80 and port 1883 of the container to port 80 respectively port 1883 of the host system. However, the target ports may be changed in this command if required.
-5. After the previous step has been finished
+2. Open a terminal and switch into the root folder of this repository
+3. Execute `docker-compose up`, which will build or download the required images for the different contains and run containers of the resulting images in a shared network.
+4. After the previous step, the web interface of the MBP should now be accessible via a web browser at `http://<docker-ip>:80`, where `docker-ip` refers to the IP address of that has been previously assigned by Docker to the current machine. The running MBP instance has already access to the MongoDB and the MQTT broker which are both operated in different containers.
 
-After the container has been started successfully in the last step, the web interface of the MBP may be accessed via port 80 (or the other target port that was specified in step 4).
+In order to stop or terminate the MBP instance, execute `docker-compose stop` or `docker-compose down`, respectively, in the root folder of this repository's clone.
 
 
 ## Haftungsausschluss
